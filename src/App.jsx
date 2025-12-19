@@ -3,7 +3,7 @@ import Body from "./components/Body"
 import Login from "./components/Login"
 import Profile from "./components/Profile"
 import Feed from "./components/Feed"
-import Connections from "./components/connections"
+import Connections from "./components/Connections"
 import Requests from "./components/Requests"
 
 function App() {
