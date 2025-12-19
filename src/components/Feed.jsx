@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addFeed } from '../utils/feedSlice'
-import UserCard from './userCard'
+import UserCard from './UserCard.jsx'
 
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:7000";
