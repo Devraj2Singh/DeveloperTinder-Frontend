@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addFeed } from '../utils/feedSlice'
 import UserCard from './userCard'
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:7000";
+
 const Feed = () => {
   
   const feed = useSelector((store) => store.feed)
@@ -14,7 +17,7 @@ const getFeed = async() =>{
  //if(feed) return; 
 
  try {
-   const res = await axios.get("http://localhost:5000/api/users/feed",{withCredentials:true});
+   const res = await axios.get(`${API_BASE_URL}/api/users/feed`,{withCredentials:true});
      dispatch(addFeed(res?.data?.users))
      console.log(res.data.users);
      

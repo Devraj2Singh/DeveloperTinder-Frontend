@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { removeUser } from "../utils/userSlice";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:7000";
 
 const NavBar = () => {
   const user = useSelector((store) => store.user);
@@ -11,7 +13,7 @@ const NavBar = () => {
 
   const handleLogout = async()=>{
     try {
-      await axios.post("http://localhost:5000/api/users/logout",
+      await axios.post(`${API_BASE_URL}/api/users/logout`,
         {},
         {withCredentials:true, 
         });

@@ -3,21 +3,28 @@ import React from 'react'
 import { useDispatch } from 'react-redux';
 import { removeUserFromFeed } from '../utils/feedSlice';
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:7000";
+
 const UserCard = ({user}) => {
   const dispatch = useDispatch();
    if (!user) return null;
     const {_id,firstname,lastname,photoURL,age,gender,about} = user;
     
     
-    const handleSendRequest = async (status,userId)=>{
-     try {
-      const res = await axios.patch("http://localhost:5000/api/users/request/sent/"+ status+ "/" + userId,{},{ withCredentials: true });
-      console.log(res);
-      dispatch(removeUserFromFeed(userId))
-     } catch (error) {
-      console.log(error);
-     }
-    }
+    const handleSendRequest = async (status, userId) => {
+      try {
+        const res = await axios.patch(
+          `${API_BASE_URL}/api/users/request/sent/${status}/${userId}`,
+          {},
+          { withCredentials: true }
+        );
+        console.log(res);
+        dispatch(removeUserFromFeed(userId));
+      } catch (error) {
+        console.log(error);
+      }
+    };
     
   return (
   <div className="card bg-base-300 w-96 shadow-sm">

@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useEffect } from "react";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:7000";
+
 const Body = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
@@ -14,7 +17,7 @@ const Body = () => {
   const fetchUser = async () => {
     if(userData) return;
     try {
-      const res = await axios.get("http://localhost:5000/api/users/profile",
+      const res = await axios.get(`${API_BASE_URL}/api/users/profile`,
         {withCredentials: true,})
       dispatch(addUser(res.data))
     } catch (error) {

@@ -3,6 +3,9 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { addConnections } from '../utils/connectionSlice';
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:7000";
+
 const Connections = () => {
 
 const dispatch = useDispatch();
@@ -10,7 +13,7 @@ const connections = useSelector((store)=>store.connections.connections)
 
 const fetchConnections = async () => {
    try {
-    const res = await axios.get("http://localhost:5000/api/users/connections",{withCredentials:true});
+    const res = await axios.get(`${API_BASE_URL}/api/users/connections`,{withCredentials:true});
     console.log(res.data.connections); 
     dispatch(addConnections(res.data.connections));
    } catch (error) {

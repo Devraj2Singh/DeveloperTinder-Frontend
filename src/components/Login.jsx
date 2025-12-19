@@ -4,9 +4,11 @@ import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/userSlice';
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:7000";
+
+
 const Login = () => {
-
-
   const [emailId, setEmailId] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstName] = useState("");
@@ -17,32 +19,47 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-const handleLogin = async () => {
- try {
-  const res = await axios.post("http://localhost:5000/api/users/login",{
-          email: emailId,
-          password
-     },{withCredentials:true,
-    
-     })
-     console.log("Login Success:", res.data);
-     dispatch(addUser(res.data.user));
-     return navigate("/");    
- } catch (error) {
-   setError(error?.response?.data.message || "Something went wrong")
- }
-  }
-
-  const handleSignUp = async() => {
+  const handleLogin = async () => {
     try {
-    const res = await axios.post("http://localhost:5000/api/users/register",{firstname,lastname,email:emailId,password},{withCredentials:true})
-    console.log(res.data);
-    dispatch(addUser(res.data));
-    return navigate("/profile");
+      const res = await axios.post(
+        `${API_BASE_URL}/api/users/login`,
+        {
+          email: emailId,
+          password,
+        },
+        { withCredentials: true }
+      );
+  
+      console.log("Login Success:", res.data);
+      dispatch(addUser(res.data.user));
+      return navigate("/");
+    } catch (error) {
+      setError(error?.response?.data?.message || "Something went wrong");
+    }
+  };
+  
+  const handleSignUp = async () => {
+    try {
+      const res = await axios.post(
+        `${API_BASE_URL}/api/users/register`,
+        {
+          firstname,
+          lastname,
+          email: emailId,
+          password,
+        },
+        { withCredentials: true }
+      );
+  
+      console.log(res.data);
+      dispatch(addUser(res.data));
+      return navigate("/profile");
     } catch (error) {
       console.log(error);
+      setError(error?.response?.data?.message || "Something went wrong");
     }
-  }
+  };
+  
 
   return (
     <div className='flex justify-center my-10'>
