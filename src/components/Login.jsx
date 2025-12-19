@@ -52,13 +52,15 @@ const Login = () => {
       );
   
       console.log(res.data);
-      dispatch(addUser(res.data));
+      // If backend returns { user: {...}, message: "..." }
+      dispatch(addUser(res.data.user));
       return navigate("/profile");
     } catch (error) {
       console.log(error);
       setError(error?.response?.data?.message || "Something went wrong");
     }
   };
+  
   
 
   return (

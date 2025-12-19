@@ -7,45 +7,48 @@ import { addUser } from "../utils/userSlice";
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:7000";
 
-
 const EditProfile = () => {
-  const user = useSelector((state) => state.user);  
+  const user = useSelector((state) => state.user);
 
-    const [firstname, setFirstName] = useState(user.firstname);
-    const [lastname, setLastName] = useState(user.lastname);
-    const [photoURL, setPhotoURL] = useState(user.photoURL);
-    const [age, setAge] = useState(user.age);
-    const [gender, setGender] = useState(user.gender);
-    const [about, setAbout] = useState(user.about);
-    const [error, setError] = useState("");
-    const [message,setMessage] = useState(false)
+  // If user is not loaded yet (first render after refresh), avoid errors
+  const [firstname, setFirstName] = useState(user?.firstname || "");
+  const [lastname, setLastName] = useState(user?.lastname || "");
+  const [photoURL, setPhotoURL] = useState(user?.photoURL || "");
+  const [age, setAge] = useState(user?.age || "");
+  const [gender, setGender] = useState(user?.gender || "");
+  const [about, setAbout] = useState(user?.about || "");
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState(false);
 
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-    const saveProfile = async () => {
-      setError("");
-      try {
-        const res = await axios.patch(
-          `${API_BASE_URL}/api/users/update-profile`,
-          { firstname, lastname, photoURL, age, gender, about },
-          { withCredentials: true }
-        );
-    
-        dispatch(addUser(res.data.user));
-        console.log("RAW RESPONSE:", res);
-        console.log("DATA:", res.data);
-        console.log("USER:", res.data.user);
-    
-        setMessage(true);
-        setTimeout(() => {
-          setMessage(false);
-        }, 3000);
-      } catch (error) {
-        setError(
-          error?.response?.data?.message || error.message || "Something went wrong"
-        );
-      }
-    };
+  const saveProfile = async () => {
+    setError("");
+    try {
+      const res = await axios.patch(
+        `${API_BASE_URL}/api/users/update-profile`,
+        { firstname, lastname, photoURL, age, gender, about },
+        { withCredentials: true }
+      );
+
+      dispatch(addUser(res.data.user));
+      console.log("RAW RESPONSE:", res);
+      console.log("DATA:", res.data);
+      console.log("USER:", res.data.user);
+
+      setMessage(true);
+      setTimeout(() => {
+        setMessage(false);
+      }, 3000);
+    } catch (error) {
+      setError(
+        error?.response?.data?.message || error.message || "Something went wrong"
+      );
+    }
+  };
+
+  // ...keep the JSX exactly as you already wrote...
+
     
     
     return ( 
