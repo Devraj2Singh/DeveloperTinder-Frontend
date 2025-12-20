@@ -1,4 +1,4 @@
-import { Outlet, useNavigate, Navigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 import axios from "axios";
@@ -13,20 +13,17 @@ const Body = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // assuming user slice is state.user, not state.users
   const userData = useSelector((store) => store.user);
 
   const fetchUser = async () => {
-    if (userData) return;
-
     try {
       const res = await axios.get(`${API_BASE_URL}/api/users/profile`, {
         withCredentials: true,
       });
       dispatch(addUser(res.data));
     } catch (error) {
-      // axios puts status on error.response.status
       if (error?.response?.status === 401) {
+        // not logged in → go to login page
         navigate("/login", { replace: true });
       }
       console.log(error);
@@ -38,11 +35,7 @@ const Body = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // If not logged in and fetch failed, just show nothing until redirect
-  if (!userData) {
-    return null;
-  }
-
+  // IMPORTANT: always render layout so router can show /login when navigate runs
   return (
     <div>
       <NavBar />

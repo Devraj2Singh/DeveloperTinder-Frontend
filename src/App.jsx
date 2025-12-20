@@ -10,7 +10,7 @@ function App() {
   return (
     <BrowserRouter basename="/">
       <Routes>
-        {/* Public route: first page = Login */}
+        {/* Public route: login/signup */}
         <Route path="/login" element={<Login />} />
 
         {/* Protected routes under Body */}
