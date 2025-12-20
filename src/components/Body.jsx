@@ -22,8 +22,8 @@ const Body = () => {
       });
       dispatch(addUser(res.data));
     } catch (error) {
-      if (error?.response?.status === 401) {
-        // not logged in → go to login page
+      // Only redirect to /login if we DON'T already have a user in Redux
+      if (!userData && error?.response?.status === 401) {
         navigate("/login", { replace: true });
       }
       console.log(error);
@@ -35,7 +35,6 @@ const Body = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // IMPORTANT: always render layout so router can show /login when navigate runs
   return (
     <div>
       <NavBar />

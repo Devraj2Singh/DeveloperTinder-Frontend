@@ -23,15 +23,12 @@ const Login = () => {
     try {
       const res = await axios.post(
         `${API_BASE_URL}/api/users/login`,
-        {
-          email: emailId,
-          password,
-        },
+        { email: emailId, password },
         { withCredentials: true }
       );
   
       console.log("Login Success:", res.data);
-      dispatch(addUser(res.data.user));
+      dispatch(addUser(res.data.user || res.data));
       return navigate("/");
     } catch (error) {
       setError(error?.response?.data?.message || "Something went wrong");
